@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Ballsbot Teleoperation</string>
+    <string name="connections_list_title">Bots list</string>
+    <string name="connection_edit_title">Edit connection</string>
+    <string name="connection_create_title">Create connection</string>
+    <string name="connection_info_title">Connection info</string>
+    <string name="add_new_connection">Add new</string>
+    <string name="host_name_label">Host name</string>
+    <string name="port_number_label">Port number</string>
+    <string name="connect_label">Connect</string>
+    <string name="edit_label">Edit</string>
+    <string name="delete_label">Delete</string>
+    <string name="save_label">Save</string>
+    <string name="test_label">Test</string>
+    <string name="cancel_label">Cancel</string>
+    <string name="key_label">Key</string>
+    <string name="description_label">Description</string>
+
+    <string name="test_connection_invalid">Invalid connection parameters</string>
+    <string name="test_connection_success">Connected successfully</string>
+    <string name="test_connection_fail">Connection failed</string>
+</resources>

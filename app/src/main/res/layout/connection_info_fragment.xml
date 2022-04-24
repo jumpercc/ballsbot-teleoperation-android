@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModel" />
+        <variable
+            name="thisFragment"
+            type="cc.jumper.ballsbot_teleoperation.ui.main.ConnectionInfoFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin"
+        tools:context=".ui.main.ConnectionInfoFragment">
+
+        <!-- description -->
+        <TextView
+            android:id="@+id/item_description_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:fontFamily="sans-serif"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/description_label" />
+
+        <TextView
+            android:id="@+id/item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:fontFamily="sans-serif-medium"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/item_description_label"
+            app:layout_constraintTop_toTopOf="@+id/item_description_label"
+            tools:text="ballsbot3 local" />
+
+        <!-- host name -->
+        <TextView
+            android:id="@+id/item_host_name_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:fontFamily="sans-serif"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_description_label"
+            android:text="@string/host_name_label" />
+
+        <TextView
+            android:id="@+id/item_host_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:fontFamily="sans-serif-medium"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/item_host_name_label"
+            app:layout_constraintTop_toTopOf="@+id/item_host_name_label"
+            tools:text="foo.bar.com" />
+
+        <!-- port number -->
+        <TextView
+            android:id="@+id/item_port_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:fontFamily="sans-serif"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_host_name_label"
+            android:text="@string/port_number_label" />
+
+        <TextView
+            android:id="@+id/item_port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:fontFamily="sans-serif-medium"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/item_port_label"
+            app:layout_constraintTop_toTopOf="@+id/item_port_label"
+            tools:text="8081" />
+
+        <Button
+            android:id="@+id/connect_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/item_port_label"
+            app:layout_constraintStart_toStartOf="@+id/item_port_label"
+            android:text="@string/connect_label"
+            android:onClick="@{() -> thisFragment.connect()}" />
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/connect_button"
+            app:layout_constraintStart_toEndOf="@+id/connect_button"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:text="@string/edit_label"
+            android:onClick="@{() -> thisFragment.editConnection()}" />
+
+        <Button
+            android:id="@+id/delete_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/connect_button"
+            app:layout_constraintStart_toEndOf="@+id/edit_button"
+            android:layout_marginStart="@dimen/margin_between_elements"
+            android:text="@string/delete_label"
+            android:onClick="@{() -> thisFragment.deleteConnection()}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
