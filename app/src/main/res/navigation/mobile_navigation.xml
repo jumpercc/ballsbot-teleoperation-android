@@ -61,13 +61,11 @@
         android:name="cc.jumper.ballsbot_teleoperation.ui.main.TeleoperationFragment"
         android:label="fragment_teleoperation"
         tools:layout="@layout/fragment_teleoperation" >
-        <action
-            android:id="@+id/action_teleoperationFragment_to_connectionsListFragment"
-            app:destination="@id/connectionsListFragment"
-            app:popUpTo="@id/connectionsListFragment"
-            app:popUpToInclusive="true" />
         <argument
             android:name="connectionId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_teleoperationFragment_to_connectionInfoFragment"
+            app:destination="@id/connectionInfoFragment" />
     </fragment>
 </navigation>

@@ -19,11 +19,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/fullscreenBackgroundColor"
-        android:theme="@style/ThemeOverlay.BallsbotTeleoperation.FullscreenContainer"
-        tools:context=".ui.main.TeleoperationFragment">
+        android:background="@color/black"
+        tools:context=".ui.main.TeleoperationFragment" >
 
         <ImageView
             android:id="@+id/front_camera"
@@ -42,7 +42,7 @@
         <ImageView
             android:id="@+id/rear_camera"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
