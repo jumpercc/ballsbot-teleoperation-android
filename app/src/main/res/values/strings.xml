@@ -13,10 +13,13 @@
     <string name="save_label">Save</string>
     <string name="test_label">Test</string>
     <string name="cancel_label">Cancel</string>
-    <string name="key_label">Key</string>
+    <string name="password_label">Password</string>
     <string name="description_label">Description</string>
 
     <string name="test_connection_invalid">Invalid connection parameters</string>
     <string name="test_connection_success">Connected successfully</string>
-    <string name="test_connection_fail">Connection failed</string>
+    <string name="test_connection_fail">Connection failed with %1$s</string>
+    <string name="certificate_label">Certificate</string>
+    <string name="front_camera_label">Front camera</string>
+    <string name="rear_camera_label">Rear camera</string>
 </resources>

@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/key_label"
+                android:hint="@string/password_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_port_label"
                 app:passwordToggleEnabled="true">
@@ -97,6 +97,24 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/item_certificate_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/certificate_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_key_label" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/item_certificate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    tools:text="-----BEGIN CERTIFICATE-----\n..." />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/save_button"
                 android:layout_width="0dp"
@@ -104,8 +122,8 @@
                 android:layout_marginTop="16dp"
                 android:onClick="@{() -> thisFragment.saveConnection()}"
                 android:text="@string/save_label"
-                app:layout_constraintStart_toStartOf="@+id/item_key_label"
-                app:layout_constraintTop_toBottomOf="@+id/item_key_label" />
+                app:layout_constraintStart_toStartOf="@+id/item_certificate_label"
+                app:layout_constraintTop_toBottomOf="@+id/item_certificate_label" />
 
             <Button
                 android:id="@+id/test_button"

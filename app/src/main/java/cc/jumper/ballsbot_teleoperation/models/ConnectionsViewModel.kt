@@ -3,6 +3,7 @@ package cc.jumper.ballsbot_teleoperation.models
 import androidx.lifecycle.*
 import cc.jumper.ballsbot_teleoperation.data.Connection
 import cc.jumper.ballsbot_teleoperation.data.ConnectionDao
+import cc.jumper.ballsbot_teleoperation.network.isCertificateValid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -31,19 +32,46 @@ class ConnectionsViewModel(private val connectionsDao: ConnectionDao) : ViewMode
         return false
     }
 
-    fun isValidEntry(description: String, hostName: String, port: String, key: String): Boolean {
-        return description.isNotBlank() && hostName.isNotBlank() && port.isNotBlank() && key.isNotBlank() && validPort(port)
+    fun isValidEntry(
+        description: String,
+        hostName: String,
+        port: String,
+        key: String,
+        certificate: String
+    ): Boolean {
+        return (
+                description.isNotBlank()
+                        && hostName.isNotBlank()
+                        && port.isNotBlank()
+                        && key.isNotBlank()
+                        && validPort(port)
+                        && certificate.isNotBlank()
+                        && isCertificateValid(certificate)
+                )
     }
 
-    fun addConnection(description: String, hostName: String, port: Int, key: String) {
+    fun addConnection(
+        description: String,
+        hostName: String,
+        port: Int,
+        key: String,
+        certificate: String
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             connectionsDao.insert(
-                Connection(0, description, hostName, port, key)
+                Connection(0, description, hostName, port, key, certificate)
             )
         }
     }
 
-    fun updateConnection(connection: Connection, description: String, hostName: String, port: Int, key: String) {
+    fun updateConnection(
+        connection: Connection,
+        description: String,
+        hostName: String,
+        port: Int,
+        key: String,
+        certificate: String
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             connectionsDao.update(
                 connection.copy(
@@ -51,6 +79,7 @@ class ConnectionsViewModel(private val connectionsDao: ConnectionDao) : ViewMode
                     hostName = hostName,
                     port = port,
                     key = key,
+                    certificate = certificate,
                 )
             )
         }

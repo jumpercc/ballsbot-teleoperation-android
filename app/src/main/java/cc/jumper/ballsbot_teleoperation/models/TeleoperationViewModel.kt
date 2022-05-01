@@ -1,15 +1,23 @@
 package cc.jumper.ballsbot_teleoperation.models
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.*
 import cc.jumper.ballsbot_teleoperation.BotSettings
 import cc.jumper.ballsbot_teleoperation.BotState
-import cc.jumper.ballsbot_teleoperation.CameraImage
 import cc.jumper.ballsbot_teleoperation.ControllerState
 import cc.jumper.ballsbot_teleoperation.data.Connection
+import cc.jumper.ballsbot_teleoperation.network.ApiService
+import cc.jumper.ballsbot_teleoperation.network.getApiService
+import com.google.gson.Gson
 import kotlinx.coroutines.*
+import retrofit2.HttpException
 import java.time.Instant
 
-class TeleoperationViewModel(private val connectionInfo: Connection) : ViewModel() {
+class TeleoperationViewModel() : ViewModel() {
+    // empty stub to remove time dependencies
+    var connectionInfo = Connection(0, "", "", 0, "", "")
+
     private val _connected = MutableLiveData<Boolean?>()
     val connected: LiveData<Boolean?> = _connected
 
@@ -19,37 +27,100 @@ class TeleoperationViewModel(private val connectionInfo: Connection) : ViewModel
     private val _botState = MutableLiveData<BotState?>()
     val botState: LiveData<BotState?> = _botState
 
-    private val _cameraImages = MutableLiveData<List<CameraImage>>()
-    val cameraImages: LiveData<List<CameraImage>> = _cameraImages
+    private val _cameraImages = MutableLiveData<List<Bitmap>>()
+    val cameraImages: LiveData<List<Bitmap>> = _cameraImages
 
+    private val gson = Gson()
     private var controllerState: ControllerState? = null
     private var job: Job? = null
-    private var sleepInterval: Long = 500
+    private var token: String = ""
+    private val apiService: ApiService by lazy { getApiService(connectionInfo) }
+    private var _previousHttpErrorMessage: String? = null
+    val previousHttpErrorMessage get() = _previousHttpErrorMessage
+    var imagesCount = 0
 
-    private fun auth() {
-        // TODO(auth)
-        _connected.value = true
+    private suspend fun auth() {
+        try {
+            token = apiService.postAuth(connectionInfo.key).token
+            _connected.postValue(true)
+            _previousHttpErrorMessage = null
+        } catch (e: HttpException) {
+            _connected.postValue(false)
+            _previousHttpErrorMessage = formatErrorMessage(e)
+        }
     }
 
-    fun isConnectionOk(): Boolean {
-        auth()
-        return connected.value!!
+    private fun formatErrorMessage(e: HttpException): String {
+        return "${e.code()} ${e.message()} - ${e.response()?.errorBody()?.string()}"
     }
 
-    private fun updateBotSettings() {
-        // TODO(getSettings)
+    fun checkConnection() {
+        runBlocking {
+            auth()
+        }
     }
 
-    private fun updateBotState() {
-        // TODO(getState)
+    private suspend fun updateBotSettings() {
+        _previousHttpErrorMessage = try {
+            val settings = apiService.getSettings(token)
+            imagesCount = settings.cameras.size
+            _botSettings.postValue(settings)
+            null
+        } catch (e: HttpException) {
+            formatErrorMessage(e)
+        }
     }
 
-    private fun updateCameraImages() {
-        // TODO(updateCameraImages)
+    private suspend fun updateCameraImages() {
+        _previousHttpErrorMessage = try {
+            val images = mutableListOf<Bitmap>()
+            repeat(imagesCount) {
+                val stream = apiService.getCameraImage(token, it).body()!!.byteStream()
+                val decodedImage = BitmapFactory.decodeStream(stream)
+                images.add(decodedImage)
+            }
+            _cameraImages.postValue(images)
+            null
+        } catch (e: HttpException) {
+            formatErrorMessage(e)
+        }
     }
 
-    private fun sendControllerState() {
-        // TODO(sendControllerState)
+    private suspend fun sendControllerState() {
+        _previousHttpErrorMessage = try {
+            val controllerState = ControllerState(
+                // FIXME
+                axes = listOf<Float>(0.0F, 0.0F, 0.0F, 0.0F),
+                buttons = listOf<Float>(
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    0.0F
+                ),
+            )
+            _botState.postValue(
+                apiService.postControllerState(
+                    token,
+                    gson.toJson(controllerState)
+                )
+            )
+            null
+        } catch (e: HttpException) {
+            formatErrorMessage(e)
+        }
     }
 
     fun setControllerState(state: ControllerState) {
@@ -60,32 +131,38 @@ class TeleoperationViewModel(private val connectionInfo: Connection) : ViewModel
         stopUpdates()
         val scope = CoroutineScope(Job() + Dispatchers.IO)
         job = scope.launch {
-            auth()
-            updateBotSettings()
+            try {
+                auth()
+                updateBotSettings()
+            } catch (e: Throwable) {
+                throw e // FIXME
+            }
 
-            val timeStep = 500  // millis
+            val timeStep = 250  // millis
             var ts = Instant.now().toEpochMilli() + timeStep
-            var even = true
             while (isActive) {
-                sendControllerState()
-                if (even) {
-                    updateBotState()
+                try {
+                    sendControllerState()
                     updateCameraImages()
+                } catch (e: Throwable) {
+                    throw e // FIXME
                 }
-                even = !even
 
                 val newTs = Instant.now().toEpochMilli()
-                val interval = ts - newTs
+                var interval = ts - newTs
                 if (interval > 0) {
-                    sleepInterval = interval
                     ts += timeStep
                 } else {
-                    sleepInterval = 0
+                    interval = 0
                     ts = newTs + timeStep
                 }
-                delay(sleepInterval)
+                delay(interval)
             }
         }
+    }
+
+    fun updatesRunning(): Boolean {
+        return (job != null)
     }
 
     fun stopUpdates() {
@@ -99,12 +176,12 @@ class TeleoperationViewModel(private val connectionInfo: Connection) : ViewModel
     }
 }
 
-class TeleoperationViewModelFactory(private val connectionInfo: Connection) :
+class TeleoperationViewModelFactory() :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TeleoperationViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return TeleoperationViewModel(connectionInfo) as T
+            return TeleoperationViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

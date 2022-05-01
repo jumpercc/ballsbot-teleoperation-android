@@ -1,27 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/fullscreenBackgroundColor"
-    android:theme="@style/ThemeOverlay.BallsbotTeleoperation.FullscreenContainer"
-    android:screenOrientation="landscape"
-    android:configChanges="keyboardHidden|orientation|screenSize"
-    tools:context=".ui.main.TeleoperationFragment" >
-    <!-- TODO(landscape only) -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    <TextView
-        android:id="@+id/fullscreen_content"
+    <data>
+
+        <variable
+            name="viewModelConnection"
+            type="cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModel" />
+
+        <variable
+            name="viewModelTeleoperation"
+            type="cc.jumper.ballsbot_teleoperation.models.TeleoperationViewModel" />
+
+        <variable
+            name="thisFragment"
+            type="cc.jumper.ballsbot_teleoperation.ui.main.TeleoperationFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="Foo"
-        android:textColor="?attr/fullscreenTextColor"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:background="?attr/fullscreenBackgroundColor"
+        android:theme="@style/ThemeOverlay.BallsbotTeleoperation.FullscreenContainer"
+        tools:context=".ui.main.TeleoperationFragment">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/front_camera"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rear_camera"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/front_camera_label"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <ImageView
+            android:id="@+id/rear_camera"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/front_camera"
+            android:contentDescription="@string/rear_camera_label"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

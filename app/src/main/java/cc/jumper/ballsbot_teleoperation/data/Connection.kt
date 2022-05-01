@@ -13,4 +13,5 @@ data class Connection(
     val hostName: String,
     val port: Int,
     val key: String,
+    val certificate: String,
 )

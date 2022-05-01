@@ -72,11 +72,13 @@ class EditConnectionFragment : Fragment() {
                 itemHostName.setText("", TextView.BufferType.SPANNABLE)
                 itemPort.setText("", TextView.BufferType.SPANNABLE)
                 itemKey.setText("", TextView.BufferType.SPANNABLE)
+                itemCertificate.setText("", TextView.BufferType.SPANNABLE)
             } else {
                 itemDescriptionName.setText(connection!!.description, TextView.BufferType.SPANNABLE)
                 itemHostName.setText(connection!!.hostName, TextView.BufferType.SPANNABLE)
                 itemPort.setText(connection!!.port.toString(), TextView.BufferType.SPANNABLE)
                 itemKey.setText(connection!!.key, TextView.BufferType.SPANNABLE)
+                itemCertificate.setText(connection!!.certificate, TextView.BufferType.SPANNABLE)
             }
         }
     }
@@ -89,6 +91,7 @@ class EditConnectionFragment : Fragment() {
                     binding.itemHostName.text.toString(),
                     binding.itemPort.text.toString().toInt(),
                     binding.itemKey.text.toString(),
+                    binding.itemCertificate.text.toString(),
                 )
                 EditConnectionFragmentDirections.actionEditConnectionFragmentToConnectionsListFragment()
             } else {
@@ -98,6 +101,7 @@ class EditConnectionFragment : Fragment() {
                     binding.itemHostName.text.toString(),
                     binding.itemPort.text.toString().toInt(),
                     binding.itemKey.text.toString(),
+                    binding.itemCertificate.text.toString(),
                 )
                 EditConnectionFragmentDirections.actionEditConnectionFragmentToConnectionInfoFragment(
                     connection!!.id
@@ -105,14 +109,14 @@ class EditConnectionFragment : Fragment() {
             }
             findNavController().navigate(action)
         } else {
-            showToast(R.string.test_connection_invalid)
+            showToast(getString(R.string.test_connection_invalid))
         }
     }
 
-    private fun showToast(stringId: Int) {
+    private fun showToast(message: String) {
         Toast.makeText(
             activity,
-            getString(stringId),
+            message,
             Toast.LENGTH_LONG
         ).show()
     }
@@ -122,11 +126,12 @@ class EditConnectionFragment : Fragment() {
         binding.itemHostName.text.toString(),
         binding.itemPort.text.toString(),
         binding.itemKey.text.toString(),
+        binding.itemCertificate.text.toString(),
     )
 
     fun testConnection() {
         if (!isValidEntry()) {
-            showToast(R.string.test_connection_invalid)
+            showToast(getString(R.string.test_connection_invalid))
             return
         }
 
@@ -136,16 +141,23 @@ class EditConnectionFragment : Fragment() {
             binding.itemHostName.text.toString(),
             binding.itemPort.text.toString().toInt(),
             binding.itemKey.text.toString(),
+            binding.itemCertificate.text.toString(),
         )
 
-        val aModel = TeleoperationViewModel(aConnection)
-        val stringId = if (aModel.isConnectionOk()) {
-            R.string.test_connection_success
-        } else {
-            R.string.test_connection_fail
-        }
+        val aModel = TeleoperationViewModel()
+        aModel.connectionInfo = aConnection
 
-        showToast(stringId)
+        aModel.connected.observeForever() {
+            if (it != null) {
+                val message = if (it) {
+                    getString(R.string.test_connection_success)
+                } else {
+                    getString(R.string.test_connection_fail, aModel.previousHttpErrorMessage)
+                }
+                showToast(message)
+            }
+        }
+        aModel.checkConnection()
     }
 
     fun cancel() {

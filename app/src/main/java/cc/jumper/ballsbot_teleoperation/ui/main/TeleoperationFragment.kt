@@ -6,25 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
+import cc.jumper.ballsbot_teleoperation.R
+import cc.jumper.ballsbot_teleoperation.TeleoperationApplication
+import cc.jumper.ballsbot_teleoperation.data.Connection
+import cc.jumper.ballsbot_teleoperation.databinding.EditConnectionFragmentBinding
 import cc.jumper.ballsbot_teleoperation.databinding.FragmentTeleoperationBinding
+import cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModel
+import cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModelFactory
+import cc.jumper.ballsbot_teleoperation.models.TeleoperationViewModel
+import cc.jumper.ballsbot_teleoperation.models.TeleoperationViewModelFactory
 
-/**
- * An example full-screen fragment that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 class TeleoperationFragment : Fragment() {
     private val hideHandler = Handler()
 
     @Suppress("InlinedApi")
     private val hidePart2Runnable = Runnable {
-        // Delayed removal of status and navigation bar
-
-        // Note that some of these constants are new as of API 16 (Jelly Bean)
-        // and API 19 (KitKat). It is safe to use them, as they are inlined
-        // at compile-time and do nothing on earlier devices.
         val flags =
             View.SYSTEM_UI_FLAG_LOW_PROFILE or
                     View.SYSTEM_UI_FLAG_FULLSCREEN or
@@ -58,6 +59,20 @@ class TeleoperationFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val navigationArgs: EditConnectionFragmentArgs by navArgs()
+
+    private val viewModelConnection: ConnectionsViewModel by activityViewModels {
+        ConnectionsViewModelFactory(
+            (activity?.application as TeleoperationApplication).database.connectionDao()
+        )
+    }
+
+    private val viewModelTeleoperation: TeleoperationViewModel by activityViewModels {
+        TeleoperationViewModelFactory()
+    }
+
+    private var connection: Connection? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,9 +89,31 @@ class TeleoperationFragment : Fragment() {
 
         visible = true
 
-        fullscreenContent = binding.fullscreenContent
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
+
+        val connectionId = navigationArgs.connectionId
+        viewModelConnection.getConnection(connectionId)
+            .observe(this.viewLifecycleOwner) { selectedConnection ->
+                connection = selectedConnection
+                viewModelTeleoperation.connectionInfo = selectedConnection
+                if (!viewModelTeleoperation.updatesRunning()) {
+                    viewModelTeleoperation.startUpdates()
+                }
+            }
+
+        viewModelTeleoperation.cameraImages.observe(this.viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                binding.frontCamera.setImageBitmap(it[0])
+                if (it.size > 1) {
+                    binding.rearCamera.setImageBitmap(it[1])
+                }
+            }
+        }
+
+        binding.viewModelConnection = viewModelConnection
+        binding.viewModelTeleoperation = viewModelTeleoperation
+        binding.thisFragment = this
     }
 
     override fun onResume() {
@@ -164,5 +201,6 @@ class TeleoperationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModelTeleoperation.stopUpdates()
     }
 }
