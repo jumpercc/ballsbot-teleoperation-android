@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class ControllerState(
-    @SerializedName("axes") val axes: List<Float>,
-    @SerializedName("buttons") val buttons: List<Float>,
+    @SerializedName("axes") val axes: MutableList<Float>,
+    @SerializedName("buttons") val buttons: MutableList<Float>,
 )
 
 data class BotSettings(

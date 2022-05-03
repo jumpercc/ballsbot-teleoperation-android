@@ -16,10 +16,7 @@ import androidx.navigation.fragment.navArgs
 import cc.jumper.ballsbot_teleoperation.TeleoperationApplication
 import cc.jumper.ballsbot_teleoperation.data.Connection
 import cc.jumper.ballsbot_teleoperation.databinding.FragmentTeleoperationBinding
-import cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModel
-import cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModelFactory
-import cc.jumper.ballsbot_teleoperation.models.TeleoperationViewModel
-import cc.jumper.ballsbot_teleoperation.models.TeleoperationViewModelFactory
+import cc.jumper.ballsbot_teleoperation.models.*
 
 
 class TeleoperationFragment : Fragment() {
@@ -36,6 +33,10 @@ class TeleoperationFragment : Fragment() {
 
     private val viewModelTeleoperation: TeleoperationViewModel by activityViewModels {
         TeleoperationViewModelFactory()
+    }
+
+    private val viewModelGameController: GameControllerViewModel by activityViewModels {
+        GameControllerViewModelFactory()
     }
 
     private var connection: Connection? = null
@@ -77,6 +78,17 @@ class TeleoperationFragment : Fragment() {
         binding.viewModelConnection = viewModelConnection
         binding.viewModelTeleoperation = viewModelTeleoperation
         binding.thisFragment = this
+
+        viewModelGameController.keyStates.observe(this.viewLifecycleOwner) { keyStates ->
+            viewModelTeleoperation.setControllerButtonsState(
+                keyStates.map { it.key.index to it.value }.toMap(),
+            )
+        }
+        viewModelGameController.axisStates.observe(this.viewLifecycleOwner) { axesStates ->
+            viewModelTeleoperation.setControllerAxesState(
+                axesStates.map { it.key.index to it.value }.toMap(),
+            )
+        }
     }
 
     override fun onResume() {

@@ -12,7 +12,31 @@ import cc.jumper.ballsbot_teleoperation.network.getApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import retrofit2.HttpException
+import java.net.ConnectException
 import java.time.Instant
+
+val IDLE_CONTROLLER_STATE = ControllerState(
+    axes = mutableListOf<Float>(0.0F, 0.0F, 0.0F, 0.0F),
+    buttons = mutableListOf<Float>(
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.0F
+    ),
+)
 
 class TeleoperationViewModel() : ViewModel() {
     // empty stub to remove time dependencies
@@ -31,7 +55,7 @@ class TeleoperationViewModel() : ViewModel() {
     val cameraImages: LiveData<List<Bitmap>> = _cameraImages
 
     private val gson = Gson()
-    private var controllerState: ControllerState? = null
+    private var controllerState: ControllerState = IDLE_CONTROLLER_STATE
     private var job: Job? = null
     private var token: String = ""
     private val apiService: ApiService by lazy { getApiService(connectionInfo) }
@@ -88,29 +112,6 @@ class TeleoperationViewModel() : ViewModel() {
 
     private suspend fun sendControllerState() {
         _previousHttpErrorMessage = try {
-            val controllerState = ControllerState(
-                // FIXME
-                axes = listOf<Float>(0.0F, 0.0F, 0.0F, 0.0F),
-                buttons = listOf<Float>(
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.0F
-                ),
-            )
             _botState.postValue(
                 apiService.postControllerState(
                     token,
@@ -123,8 +124,16 @@ class TeleoperationViewModel() : ViewModel() {
         }
     }
 
-    fun setControllerState(state: ControllerState) {
-        controllerState = state.copy()
+    fun setControllerButtonsState(buttonsState: Map<Int, Float>) {
+        buttonsState.forEach() {
+            controllerState.buttons[it.key] = it.value
+        }
+    }
+
+    fun setControllerAxesState(axesState: Map<Int, Float>) {
+        axesState.forEach() {
+            controllerState.axes[it.key] = it.value
+        }
     }
 
     fun startUpdates() {
@@ -134,6 +143,9 @@ class TeleoperationViewModel() : ViewModel() {
             try {
                 auth()
                 updateBotSettings()
+            } catch (e: ConnectException) {
+                _previousHttpErrorMessage = "connection error"  // TODO observe it
+                return@launch
             } catch (e: Throwable) {
                 throw e // FIXME
             }
@@ -144,6 +156,9 @@ class TeleoperationViewModel() : ViewModel() {
                 try {
                     sendControllerState()
                     updateCameraImages()
+                }  catch (e: ConnectException) {
+                    _previousHttpErrorMessage = "connection error"  // TODO observe it
+                    return@launch
                 } catch (e: Throwable) {
                     throw e // FIXME
                 }
@@ -172,7 +187,7 @@ class TeleoperationViewModel() : ViewModel() {
         _botSettings.value = null
         _botState.value = null
         _cameraImages.value = listOf()
-        controllerState = null
+        controllerState = IDLE_CONTROLLER_STATE
     }
 }
 
