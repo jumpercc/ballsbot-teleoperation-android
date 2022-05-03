@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_connectionsListFragment_to_editConnectionFragment"
             app:destination="@id/editConnectionFragment" />
+        <action
+            android:id="@+id/action_connectionsListFragment_to_testGameControllerFragment"
+            app:destination="@id/testGameControllerFragment" />
     </fragment>
     <fragment
         android:id="@+id/connectionInfoFragment"
@@ -67,5 +70,14 @@
         <action
             android:id="@+id/action_teleoperationFragment_to_connectionInfoFragment"
             app:destination="@id/connectionInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/testGameControllerFragment"
+        android:name="cc.jumper.ballsbot_teleoperation.ui.main.TestGameControllerFragment"
+        android:label="@string/test_game_controller_title"
+        tools:layout="@layout/test_game_controller_fragment">
+        <action
+            android:id="@+id/action_testGameControllerFragment_to_connectionsListFragment"
+            app:destination="@id/connectionsListFragment" />
     </fragment>
 </navigation>

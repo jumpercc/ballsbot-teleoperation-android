@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="cc.jumper.ballsbot_teleoperation.models.GameControllerViewModel" />
+
+        <variable
+            name="thisFragment"
+            type="cc.jumper.ballsbot_teleoperation.ui.main.TestGameControllerFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.ConnectionInfoFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_buttons"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/layout_axis"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.main.ConnectionInfoFragment">
+
+            <!-- button A -->
+            <TextView
+                android:id="@+id/button_a_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_a_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/button_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_a_label"
+                app:layout_constraintTop_toTopOf="@+id/button_a_label"
+                tools:text="0.0" />
+
+            <!-- button B -->
+            <TextView
+                android:id="@+id/button_b_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_b_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_a_label" />
+
+            <TextView
+                android:id="@+id/button_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_b_label"
+                app:layout_constraintTop_toTopOf="@+id/button_b_label"
+                tools:text="0.0" />
+
+            <!-- button X -->
+            <TextView
+                android:id="@+id/button_x_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_x_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_b_label" />
+
+            <TextView
+                android:id="@+id/button_x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_x_label"
+                app:layout_constraintTop_toTopOf="@+id/button_x_label"
+                tools:text="0.0" />
+
+            <!-- button Y -->
+            <TextView
+                android:id="@+id/button_y_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_y_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_x_label" />
+
+            <TextView
+                android:id="@+id/button_y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_y_label"
+                app:layout_constraintTop_toTopOf="@+id/button_y_label"
+                tools:text="0.0" />
+
+            <!-- button LB -->
+            <TextView
+                android:id="@+id/button_lb_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_lb_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_y_label" />
+
+            <TextView
+                android:id="@+id/button_lb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_lb_label"
+                app:layout_constraintTop_toTopOf="@+id/button_lb_label"
+                tools:text="0.0" />
+
+            <!-- button LT -->
+            <TextView
+                android:id="@+id/button_lt_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_lt_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_lb_label" />
+
+            <TextView
+                android:id="@+id/button_lt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_lt_label"
+                app:layout_constraintTop_toTopOf="@+id/button_lt_label"
+                tools:text="0.0" />
+
+            <!-- button RB -->
+            <TextView
+                android:id="@+id/button_rb_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_rb_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_lt_label" />
+
+            <TextView
+                android:id="@+id/button_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_rb_label"
+                app:layout_constraintTop_toTopOf="@+id/button_rb_label"
+                tools:text="0.0" />
+
+            <!-- button RT -->
+            <TextView
+                android:id="@+id/button_rt_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/button_rt_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_rb_label" />
+
+            <TextView
+                android:id="@+id/button_rt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_rt_label"
+                app:layout_constraintTop_toTopOf="@+id/button_rt_label"
+                tools:text="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_axis"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/layout_buttons"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.main.ConnectionInfoFragment">
+
+            <!-- controller id -->
+            <TextView
+                android:id="@+id/controller_id_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/controller_id_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/controller_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:text="@{viewModel.getControllerId()}"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/controller_id_label"
+                app:layout_constraintTop_toTopOf="@+id/controller_id_label"
+                tools:text="123" />
+
+            <!-- axis LX -->
+            <TextView
+                android:id="@+id/axis_lx_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/axis_lx_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/controller_id_label" />
+
+            <TextView
+                android:id="@+id/axis_lx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/axis_lx_label"
+                app:layout_constraintTop_toTopOf="@+id/axis_lx_label"
+                tools:text="0.0" />
+
+            <!-- axis LY -->
+            <TextView
+                android:id="@+id/axis_ly_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/axis_ly_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/axis_lx_label" />
+
+            <TextView
+                android:id="@+id/axis_ly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/axis_ly_label"
+                app:layout_constraintTop_toTopOf="@+id/axis_ly_label"
+                tools:text="0.0" />
+
+            <!-- axis RX -->
+            <TextView
+                android:id="@+id/axis_rx_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/axis_rx_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/axis_ly_label" />
+
+            <TextView
+                android:id="@+id/axis_rx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/axis_rx_label"
+                app:layout_constraintTop_toTopOf="@+id/axis_rx_label"
+                tools:text="0.0" />
+
+            <!-- axis RY -->
+            <TextView
+                android:id="@+id/axis_ry_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/axis_ry_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/axis_rx_label" />
+
+            <TextView
+                android:id="@+id/axis_ry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_elements"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/axis_ry_label"
+                app:layout_constraintTop_toTopOf="@+id/axis_ry_label"
+                tools:text="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

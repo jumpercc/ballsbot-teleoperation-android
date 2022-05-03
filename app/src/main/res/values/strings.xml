@@ -4,6 +4,7 @@
     <string name="connection_edit_title">Edit connection</string>
     <string name="connection_create_title">Create connection</string>
     <string name="connection_info_title">Connection info</string>
+    <string name="test_game_controller_title">Test game controller</string>
     <string name="add_new_connection">Add new</string>
     <string name="host_name_label">Host name</string>
     <string name="port_number_label">Port number</string>
@@ -22,4 +23,20 @@
     <string name="certificate_label">Certificate</string>
     <string name="front_camera_label">Front camera</string>
     <string name="rear_camera_label">Rear camera</string>
+    <string name="test_game_controller">Test game controller</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="controller_id_label">Controller ID</string>
+    <string name="button_a_label">Button A</string>
+    <string name="button_b_label">Button B</string>
+    <string name="button_x_label">Button X</string>
+    <string name="button_y_label">Button Y</string>
+    <string name="button_lb_title">Button LB</string>
+    <string name="button_lt_title">Button LT</string>
+    <string name="button_rb_title">Button RB</string>
+    <string name="button_rt_title">Button RT</string>
+    <string name="axis_lx_title">Axis LX</string>
+    <string name="axis_ly_title">Axis LY</string>
+    <string name="axis_rx_title">Axis RX</string>
+    <string name="axis_ry_title">Axis RY</string>
 </resources>

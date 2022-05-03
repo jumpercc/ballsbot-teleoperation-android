@@ -77,41 +77,6 @@ class TeleoperationFragment : Fragment() {
         binding.viewModelConnection = viewModelConnection
         binding.viewModelTeleoperation = viewModelTeleoperation
         binding.thisFragment = this
-
-        updateLayout(resources.configuration)
-    }
-
-    private fun updateLayout(newConfig: Configuration) {
-        // TODO
-//        val paramsFront = binding.frontCamera.layoutParams as ConstraintLayout.LayoutParams
-//        val paramsRear = binding.rearCamera.layoutParams as ConstraintLayout.LayoutParams
-//
-//        paramsFront.startToStart = binding.parentLayout.id
-//        paramsFront.topToTop = binding.parentLayout.id
-//
-//        paramsRear.endToEnd = binding.parentLayout.id
-//        paramsRear.bottomToBottom = binding.parentLayout.id
-//
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            paramsFront.bottomToBottom = binding.parentLayout.id
-//            paramsFront.endToStart = binding.rearCamera.id
-//
-//            paramsRear.topToTop = binding.parentLayout.id
-//            paramsRear.startToEnd = binding.frontCamera.id
-//        } else {
-//            paramsFront.bottomToTop = binding.rearCamera.id
-//            paramsFront.endToEnd = binding.parentLayout.id
-//
-//            paramsRear.topToBottom = binding.frontCamera.id
-//            paramsRear.startToStart = binding.parentLayout.id
-//        }
-//
-//        binding.parentLayout.invalidate()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        updateLayout(newConfig)
     }
 
     override fun onResume() {

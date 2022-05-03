@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import cc.jumper.ballsbot_teleoperation.R
 import cc.jumper.ballsbot_teleoperation.TeleoperationApplication
 import cc.jumper.ballsbot_teleoperation.data.Connection
 import cc.jumper.ballsbot_teleoperation.databinding.ConnectionInfoFragmentBinding
-import cc.jumper.ballsbot_teleoperation.databinding.ConnectionsListFragmentBinding
 import cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModel
 import cc.jumper.ballsbot_teleoperation.models.ConnectionsViewModelFactory
 

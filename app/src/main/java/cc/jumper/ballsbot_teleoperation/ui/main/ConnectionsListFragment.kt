@@ -52,10 +52,14 @@ class ConnectionsListFragment : Fragment() {
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-        binding.floatingActionButton.setOnClickListener {
+        binding.fabAddConnection.setOnClickListener {
             val action = ConnectionsListFragmentDirections.actionConnectionsListFragmentToEditConnectionFragment(
                 -1
             )
+            this.findNavController().navigate(action)
+        }
+        binding.fabTestGameController.setOnClickListener {
+            val action = ConnectionsListFragmentDirections.actionConnectionsListFragmentToTestGameControllerFragment()
             this.findNavController().navigate(action)
         }
     }
