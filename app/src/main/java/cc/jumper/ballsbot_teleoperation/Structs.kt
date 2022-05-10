@@ -58,10 +58,18 @@ data class ManipulatorState(
     val current_pose: ManipulatorPose,
 )
 
+data class BotSize(
+    val x: Float,
+    val y: Float,
+    val w: Float,
+    val h: Float,
+)
+
 data class BotState(
     val lidar: List<List<Double>>,
     val distance_sensors: Map<String, DistanceSensorState>,
     val pose: Pose,
     val ups: Double,
     val manipulator: ManipulatorState,
+    val bot_size: BotSize,
 )

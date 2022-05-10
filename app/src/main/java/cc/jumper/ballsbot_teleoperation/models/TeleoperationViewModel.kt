@@ -11,6 +11,7 @@ import cc.jumper.ballsbot_teleoperation.network.ApiService
 import cc.jumper.ballsbot_teleoperation.network.getApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.*
+import kotlinx.coroutines.NonCancellable.isActive
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.time.Instant
@@ -53,6 +54,9 @@ class TeleoperationViewModel() : ViewModel() {
 
     private val _cameraImages = MutableLiveData<List<Bitmap>>()
     val cameraImages: LiveData<List<Bitmap>> = _cameraImages
+
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
 
     private val gson = Gson()
     private var controllerState: ControllerState = IDLE_CONTROLLER_STATE
@@ -143,35 +147,29 @@ class TeleoperationViewModel() : ViewModel() {
             try {
                 auth()
                 updateBotSettings()
-            } catch (e: ConnectException) {
-                _previousHttpErrorMessage = "connection error"  // TODO observe it
-                return@launch
-            } catch (e: Throwable) {
-                throw e // FIXME
-            }
 
-            val timeStep = 250  // millis
-            var ts = Instant.now().toEpochMilli() + timeStep
-            while (isActive) {
-                try {
+                val timeStep = 250  // millis
+                var ts = Instant.now().toEpochMilli() + timeStep
+                while (isActive) {
                     sendControllerState()
                     updateCameraImages()
-                }  catch (e: ConnectException) {
-                    _previousHttpErrorMessage = "connection error"  // TODO observe it
-                    return@launch
-                } catch (e: Throwable) {
-                    throw e // FIXME
-                }
 
-                val newTs = Instant.now().toEpochMilli()
-                var interval = ts - newTs
-                if (interval > 0) {
-                    ts += timeStep
-                } else {
-                    interval = 0
-                    ts = newTs + timeStep
+                    val newTs = Instant.now().toEpochMilli()
+                    var interval = ts - newTs
+                    if (interval > 0) {
+                        ts += timeStep
+                    } else {
+                        interval = 0
+                        ts = newTs + timeStep
+                    }
+                    delay(interval)
                 }
-                delay(interval)
+            } catch (e: ConnectException) {
+                _errorMessage.postValue("connection error")
+            } catch (e: java.net.SocketTimeoutException) {
+                _errorMessage.postValue("connection timeout")
+            } catch (e: Throwable) {
+                _errorMessage.postValue(e.toString())
             }
         }
     }

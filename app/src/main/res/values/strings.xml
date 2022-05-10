@@ -24,8 +24,6 @@
     <string name="front_camera_label">Front camera</string>
     <string name="rear_camera_label">Rear camera</string>
     <string name="test_game_controller">Test game controller</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="controller_id_label">Controller ID</string>
     <string name="button_a_label">Button A</string>
     <string name="button_b_label">Button B</string>
@@ -39,4 +37,9 @@
     <string name="axis_ly_title">Axis LY</string>
     <string name="axis_rx_title">Axis RX</string>
     <string name="axis_ry_title">Axis RY</string>
+    <string name="manipulator_xy_label">Manipulator XY</string>
+    <string name="manipulator_xz_label">Manipulator XZ</string>
+    <string name="lidar_cloud_title">Lidar cloud</string>
+    <string name="manipulator_distance">Distance: %sm</string>
+    <string name="battery_charge_label">Battery charge: %s%%</string>
 </resources>

@@ -25,14 +25,56 @@
         android:background="@color/black"
         tools:context=".ui.main.TeleoperationFragment" >
 
+        <cc.jumper.ballsbot_teleoperation.ui.views.ManipulatorView
+            android:id="@+id/mainpulator_xy"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/mainpulator_distance"
+            app:layout_constraintEnd_toStartOf="@+id/front_camera"
+            android:contentDescription="@string/manipulator_xy_label" />
+
+        <TextView
+            android:id="@+id/mainpulator_distance"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainpulator_xy"
+            app:layout_constraintBottom_toTopOf="@+id/mainpulator_xz"
+            app:layout_constraintEnd_toStartOf="@+id/front_camera"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:textAlignment="center"
+            android:gravity="center"
+            tools:text="Distance: 200mm" />
+
+        <cc.jumper.ballsbot_teleoperation.ui.views.ManipulatorView
+            android:id="@+id/mainpulator_xz"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainpulator_distance"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/front_camera"
+            android:contentDescription="@string/manipulator_xz_label" />
+
         <ImageView
             android:id="@+id/front_camera"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"
+            app:layout_constraintHorizontal_weight="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rear_camera"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mainpulator_xy"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/front_camera_label"
             android:adjustViewBounds="true"
@@ -44,14 +86,27 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/front_camera"
+            app:layout_constraintBottom_toTopOf="@+id/lidar_view"
+            app:layout_constraintEnd_toEndOf="parent"
             android:contentDescription="@string/rear_camera_label"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             tools:src="@tools:sample/backgrounds/scenic" />
+
+        <cc.jumper.ballsbot_teleoperation.ui.views.LidarView
+            android:id="@+id/lidar_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintTop_toBottomOf="@+id/rear_camera"
+            app:layout_constraintStart_toEndOf="@+id/front_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/lidar_cloud_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
