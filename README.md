@@ -1,3 +1,5 @@
 # Android app for your Ballsbot teleoperation
 
-Ballsbot repository [here](https://github.com/jumpercc/ballsbot)
+An android app to remotely operate your [robot](https://github.com/jumpercc/ballsbot)
+
+<img caption="app screenshot" src="https://github.com/jumpercc/ballsbot/blob/master/images/teleoperation-app.jpg?raw=true" height="400" />
