@@ -66,6 +66,7 @@ class TeleoperationViewModel() : ViewModel() {
     private var _previousHttpErrorMessage: String? = null
     val previousHttpErrorMessage get() = _previousHttpErrorMessage
     var imagesCount = 0
+    private var updatesPerSecond = 0
 
     private suspend fun auth() {
         try {
@@ -92,6 +93,7 @@ class TeleoperationViewModel() : ViewModel() {
         _previousHttpErrorMessage = try {
             val settings = apiService.getSettings(token)
             imagesCount = settings.cameras.size
+            updatesPerSecond = settings.updates_per_second
             _botSettings.postValue(settings)
             null
         } catch (e: HttpException) {
@@ -148,7 +150,7 @@ class TeleoperationViewModel() : ViewModel() {
                 auth()
                 updateBotSettings()
 
-                val timeStep = 250  // millis
+                val timeStep = 1000 / updatesPerSecond  // millis
                 var ts = Instant.now().toEpochMilli() + timeStep
                 while (isActive) {
                     sendControllerState()

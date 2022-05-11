@@ -1,11 +1,15 @@
 package cc.jumper.ballsbot_teleoperation
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class ControllerState(
     @SerializedName("axes") val axes: MutableList<Float>,
     @SerializedName("buttons") val buttons: MutableList<Float>,
+)
+
+data class CameraImageSettings(
+    val width: Int,
+    val height: Int,
 )
 
 data class BotSettings(
@@ -15,6 +19,8 @@ data class BotSettings(
     val manipulator: Boolean,
     val pose: Boolean,
     val ups: Boolean,
+    val updates_per_second: Int,
+    val camera_image: CameraImageSettings,
 )
 
 data class DistanceSensorState(

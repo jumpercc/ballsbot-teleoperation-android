@@ -79,33 +79,40 @@ class TeleoperationFragment : Fragment() {
         }
         viewModelTeleoperation.botState.observe(this.viewLifecycleOwner) {
             if (it != null) {
-                binding.lidarView.updateCloud(
-                    it.bot_size,
-                    it.lidar,
-                )
+                val settings = viewModelTeleoperation.botSettings.value!!
 
-                // FIXME conditional
-                binding.mainpulatorXy.updatePose(
-                    it.bot_size,
-                    it.manipulator
-                )
-                binding.mainpulatorXz.setProjection(ManipulatorProjection.XZ)
-                binding.mainpulatorXz.updatePose(
-                    it.bot_size,
-                    it.manipulator
-                )
-
-                // FIXME conditional
-                val manipulatorDistance = if (it.distance_sensors["manipulator"] != null) {
-                    String.format("%.2f", it.distance_sensors["manipulator"]?.distance)
-                } else {
-                    "-1"
+                if (settings.lidar) {
+                    binding.lidarView.updateCloud(
+                        it.bot_size,
+                        it.lidar,
+                    )
                 }
-                binding.mainpulatorDistance.text =
-                    getString(R.string.manipulator_distance, manipulatorDistance)
 
-                // FIXME conditional
-                setBatteryChargeIcon(it.ups)
+                if (settings.manipulator) {
+                    binding.mainpulatorXy.updatePose(
+                        it.bot_size,
+                        it.manipulator
+                    )
+                    binding.mainpulatorXz.setProjection(ManipulatorProjection.XZ)
+                    binding.mainpulatorXz.updatePose(
+                        it.bot_size,
+                        it.manipulator
+                    )
+
+                    if (settings.distance_sensors.contains("manipulator")) {
+                        val manipulatorDistance = if (it.distance_sensors["manipulator"] != null) {
+                            String.format("%.2f", it.distance_sensors["manipulator"]?.distance)
+                        } else {
+                            "-1"
+                        }
+                        binding.mainpulatorDistance.text =
+                            getString(R.string.manipulator_distance, manipulatorDistance)
+                    }
+                }
+
+                if (settings.ups) {
+                    setBatteryChargeIcon(it.ups)
+                }
             }
         }
 
