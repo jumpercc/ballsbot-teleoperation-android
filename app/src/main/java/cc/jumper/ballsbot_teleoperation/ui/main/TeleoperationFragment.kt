@@ -91,7 +91,7 @@ class TeleoperationFragment : Fragment() {
                 if (settings.manipulator) {
                     binding.mainpulatorXy.updatePose(
                         it.bot_size,
-                        it.manipulator
+                        it.manipulator!!
                     )
                     binding.mainpulatorXz.setProjection(ManipulatorProjection.XZ)
                     binding.mainpulatorXz.updatePose(
@@ -111,7 +111,7 @@ class TeleoperationFragment : Fragment() {
                 }
 
                 if (settings.ups) {
-                    setBatteryChargeIcon(it.ups)
+                    setBatteryChargeIcon(it.ups!!)
                 }
             }
         }
