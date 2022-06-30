@@ -113,6 +113,8 @@ class TeleoperationFragment : Fragment() {
                 if (settings.ups) {
                     setBatteryChargeIcon(it.ups!!)
                 }
+
+                binding.detectionsFront.updateDetections(it.detections)
             }
         }
 

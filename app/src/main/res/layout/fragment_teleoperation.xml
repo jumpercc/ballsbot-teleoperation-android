@@ -81,6 +81,18 @@
             android:scaleType="fitCenter"
             tools:src="@tools:sample/backgrounds/scenic" />
 
+        <cc.jumper.ballsbot_teleoperation.ui.views.DetectionsView
+            android:id="@+id/detections_front"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rear_camera"
+            app:layout_constraintStart_toEndOf="@+id/mainpulator_xy"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/front_camera_detections_label" />
+
         <ImageView
             android:id="@+id/rear_camera"
             android:layout_width="0dp"

@@ -21,4 +21,6 @@
     <color name="manipulator_bot">#55DD55</color>
     <color name="manipulator_hand">#DDDD55</color>
     <color name="manipulator_text">#FFFFFF</color>
+
+    <color name="detection_frame">#55DD55</color>
 </resources>

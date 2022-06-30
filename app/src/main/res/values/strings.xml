@@ -42,4 +42,5 @@
     <string name="lidar_cloud_title">Lidar cloud</string>
     <string name="manipulator_distance">Distance: %sm</string>
     <string name="battery_charge_label">Battery charge: %s%%</string>
+    <string name="front_camera_detections_label">Front camera detections</string>
 </resources>
