@@ -142,6 +142,7 @@ class TeleoperationFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.layout_menu, menu)
         batteryChargeIcon = menu.findItem(R.id.battery_charge_icon)

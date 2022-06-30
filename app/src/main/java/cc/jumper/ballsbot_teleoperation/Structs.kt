@@ -71,6 +71,17 @@ data class BotSize(
     val h: Float,
 )
 
+data class Detection(
+    val object_class: String,
+    val top_right: List<Double>,
+    val bottom_left: List<Double>,
+    val confidence: Double,
+    val hsize: Double,
+    val vsize: Double,
+    val size: Double,
+    val center: List<Double>,
+)
+
 data class BotState(
     val lidar: List<List<Double>>,
     val distance_sensors: Map<String, DistanceSensorState>,
@@ -78,4 +89,5 @@ data class BotState(
     val ups: Double?,
     val manipulator: ManipulatorState?,
     val bot_size: BotSize,
+    val detections: List<Detection>?,
 )

@@ -3,7 +3,6 @@ package cc.jumper.ballsbot_teleoperation.network
 import android.net.Uri
 import cc.jumper.ballsbot_teleoperation.BotSettings
 import cc.jumper.ballsbot_teleoperation.BotState
-import cc.jumper.ballsbot_teleoperation.ControllerState
 import cc.jumper.ballsbot_teleoperation.data.Connection
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
