@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/controller_mode_icon"
+        android:title="@string/enable_autopilot_label"
+        android:icon="@drawable/ic_mode_manual"
+        app:showAsAction="always" />
+
     <item android:id="@+id/battery_charge_icon"
         android:title="@string/battery_charge_label"
         android:icon="@drawable/ic_battery_unknown"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

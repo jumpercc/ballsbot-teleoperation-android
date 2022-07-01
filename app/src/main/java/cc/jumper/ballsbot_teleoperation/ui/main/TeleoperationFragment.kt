@@ -1,5 +1,7 @@
 package cc.jumper.ballsbot_teleoperation.ui.main
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -20,6 +22,7 @@ class TeleoperationFragment : Fragment() {
     private var _binding: FragmentTeleoperationBinding? = null
     private val binding get() = _binding!!
     private lateinit var batteryChargeIcon: MenuItem
+    private lateinit var controllerModeIcon: MenuItem
 
     private val navigationArgs: EditConnectionFragmentArgs by navArgs()
 
@@ -114,6 +117,13 @@ class TeleoperationFragment : Fragment() {
                     setBatteryChargeIcon(it.ups!!)
                 }
 
+                val iconId = if (it.current_mode == "manual") {
+                    R.drawable.ic_mode_manual
+                } else {
+                    R.drawable.ic_mode_auto
+                }
+                controllerModeIcon.icon = ContextCompat.getDrawable(this.requireContext(), iconId)
+
                 binding.detectionsFront.updateDetections(it.detections)
             }
         }
@@ -148,6 +158,7 @@ class TeleoperationFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.layout_menu, menu)
         batteryChargeIcon = menu.findItem(R.id.battery_charge_icon)
+        controllerModeIcon = menu.findItem(R.id.controller_mode_icon)
         setBatteryChargeIcon(-1.0)
     }
 
@@ -174,6 +185,28 @@ class TeleoperationFragment : Fragment() {
         batteryChargeIcon.icon = ContextCompat.getDrawable(this.requireContext(), iconId)
         batteryChargeIcon.title =
             getString(R.string.battery_charge_label, String.format("%.0f", charge))
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.controller_mode_icon) {
+            viewModelTeleoperation.botState.value?.let {
+                if (viewModelTeleoperation.getBotMode() == "manual") {
+                    AlertDialog.Builder(activity)
+                        .setTitle(R.string.select_a_mode)
+                        .setItems(it.modes_available.toTypedArray(),
+                            DialogInterface.OnClickListener { _, which ->
+                                viewModelTeleoperation.setBotMode(it.modes_available[which])
+                            })
+                        .create()
+                        .show()
+                } else {
+                    viewModelTeleoperation.setBotMode("manual")
+                }
+            }
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {

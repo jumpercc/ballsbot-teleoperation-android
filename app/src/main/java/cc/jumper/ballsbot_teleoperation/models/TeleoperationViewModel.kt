@@ -11,7 +11,6 @@ import cc.jumper.ballsbot_teleoperation.network.ApiService
 import cc.jumper.ballsbot_teleoperation.network.getApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.*
-import kotlinx.coroutines.NonCancellable.isActive
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.time.Instant
@@ -67,6 +66,7 @@ class TeleoperationViewModel() : ViewModel() {
     val previousHttpErrorMessage get() = _previousHttpErrorMessage
     var imagesCount = 0
     private var updatesPerSecond = 0
+    private var botMode = "manual"
 
     private suspend fun auth() {
         try {
@@ -121,7 +121,8 @@ class TeleoperationViewModel() : ViewModel() {
             _botState.postValue(
                 apiService.postControllerState(
                     token,
-                    gson.toJson(controllerState)
+                    gson.toJson(controllerState),
+                    botMode
                 )
             )
             null
@@ -140,6 +141,14 @@ class TeleoperationViewModel() : ViewModel() {
         axesState.forEach() {
             controllerState.axes[it.key] = it.value
         }
+    }
+
+    fun setBotMode(newMode: String) {
+        botMode = newMode
+    }
+
+    fun getBotMode(): String {
+        return botMode
     }
 
     fun startUpdates() {

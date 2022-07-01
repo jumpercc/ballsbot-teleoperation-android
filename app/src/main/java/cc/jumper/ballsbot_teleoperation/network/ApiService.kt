@@ -64,7 +64,8 @@ interface ApiService {
     @POST("controller_state")
     suspend fun postControllerState(
         @Field("token") token: String,
-        @Field("controller_state") controllerState: String
+        @Field("controller_state") controllerState: String,
+        @Field("mode") mode: String
     ): BotState
 
     @Streaming

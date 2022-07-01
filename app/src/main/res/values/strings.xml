@@ -43,4 +43,6 @@
     <string name="manipulator_distance">Distance: %sm</string>
     <string name="battery_charge_label">Battery charge: %s%%</string>
     <string name="front_camera_detections_label">Front camera detections</string>
+    <string name="enable_autopilot_label">Enable autopilot</string>
+    <string name="select_a_mode">Select a mode</string>
 </resources>

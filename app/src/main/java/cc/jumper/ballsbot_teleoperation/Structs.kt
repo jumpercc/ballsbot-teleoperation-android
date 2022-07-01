@@ -90,4 +90,6 @@ data class BotState(
     val manipulator: ManipulatorState?,
     val bot_size: BotSize,
     val detections: List<Detection>?,
+    val current_mode: String,
+    val modes_available: List<String>,
 )
