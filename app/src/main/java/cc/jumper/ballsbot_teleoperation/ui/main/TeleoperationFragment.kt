@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -92,12 +95,12 @@ class TeleoperationFragment : Fragment() {
                 }
 
                 if (settings.manipulator) {
-                    binding.mainpulatorXy.updatePose(
+                    binding.manipulatorXy.updatePose(
                         it.bot_size,
                         it.manipulator!!
                     )
-                    binding.mainpulatorXz.setProjection(ManipulatorProjection.XZ)
-                    binding.mainpulatorXz.updatePose(
+                    binding.manipulatorXz.setProjection(ManipulatorProjection.XZ)
+                    binding.manipulatorXz.updatePose(
                         it.bot_size,
                         it.manipulator
                     )
@@ -108,9 +111,51 @@ class TeleoperationFragment : Fragment() {
                         } else {
                             "-1"
                         }
-                        binding.mainpulatorDistance.text =
+                        binding.manipulatorDistance.text =
                             getString(R.string.manipulator_distance, manipulatorDistance)
                     }
+                } else if (binding.parentLayout.children.contains(binding.manipulatorXy)) {
+                    val constraintLayout: ConstraintLayout = binding.parentLayout
+                    val constraintSet = ConstraintSet()
+                    constraintSet.clone(constraintLayout)
+                    listOf(binding.detectionsFront.id, binding.frontCamera.id).forEach {an_id ->
+                        constraintSet.clear(
+                            an_id,
+                            ConstraintSet.START
+                        )
+                        constraintSet.connect(
+                            an_id,
+                            ConstraintSet.START,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.START,
+                            0
+                        )
+                        constraintSet.setHorizontalWeight(an_id, 1.0f)
+                    }
+                    if (settings.cameras.size == 1) {
+                        constraintSet.clear(
+                            binding.lidarView.id,
+                            ConstraintSet.TOP
+                        )
+                        constraintSet.connect(
+                            binding.lidarView.id,
+                            ConstraintSet.TOP,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.TOP,
+                            0
+                        )
+                    }
+
+                    constraintSet.applyTo(constraintLayout)
+
+                    constraintLayout.removeView(binding.manipulatorXy)
+                    constraintLayout.removeView(binding.manipulatorXz)
+                    constraintLayout.removeView(binding.manipulatorDistance)
+                    if (settings.cameras.size == 1) {
+                        constraintLayout.removeView(binding.rearCamera)
+                    }
+
+                    constraintLayout.invalidate()
                 }
 
                 if (settings.ups) {

@@ -25,14 +25,14 @@ class GameControllerViewModel() : ViewModel() {
     private var _keyStates = MutableLiveData(
         KeyName.values().associate { it to false }.toMutableMap()
     )
-    val keyStates: LiveData<Map<KeyName, Float>> = Transformations.map(_keyStates) { item ->
+    val keyStates: LiveData<Map<KeyName, Float>> = _keyStates.map { item ->
         item.map { it.key to toFloatKeyState(it.value) }.toMap()
     }
 
     private var _axisStates = MutableLiveData(
         AxisName.values().associate { it to 0.0F }.toMutableMap()
     )
-    val axisStates: LiveData<Map<AxisName, Float>> = Transformations.map(_axisStates) {
+    val axisStates: LiveData<Map<AxisName, Float>> = _axisStates.map {
         it.toMap()
     }
 

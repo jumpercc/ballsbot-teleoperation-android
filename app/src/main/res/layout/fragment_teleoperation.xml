@@ -26,26 +26,26 @@
         tools:context=".ui.main.TeleoperationFragment" >
 
         <cc.jumper.ballsbot_teleoperation.ui.views.ManipulatorView
-            android:id="@+id/mainpulator_xy"
+            android:id="@+id/manipulator_xy"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/mainpulator_distance"
+            app:layout_constraintBottom_toTopOf="@+id/manipulator_distance"
             app:layout_constraintEnd_toStartOf="@+id/front_camera"
             android:contentDescription="@string/manipulator_xy_label" />
 
         <TextView
-            android:id="@+id/mainpulator_distance"
+            android:id="@+id/manipulator_distance"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainpulator_xy"
-            app:layout_constraintBottom_toTopOf="@+id/mainpulator_xz"
+            app:layout_constraintTop_toBottomOf="@+id/manipulator_xy"
+            app:layout_constraintBottom_toTopOf="@+id/manipulator_xz"
             app:layout_constraintEnd_toStartOf="@+id/front_camera"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -55,13 +55,13 @@
             tools:text="Distance: 200mm" />
 
         <cc.jumper.ballsbot_teleoperation.ui.views.ManipulatorView
-            android:id="@+id/mainpulator_xz"
+            android:id="@+id/manipulator_xz"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainpulator_distance"
+            app:layout_constraintTop_toBottomOf="@+id/manipulator_distance"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/front_camera"
             android:contentDescription="@string/manipulator_xz_label" />
@@ -73,8 +73,8 @@
             android:layout_weight="1"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rear_camera"
-            app:layout_constraintStart_toEndOf="@+id/mainpulator_xy"
+            app:layout_constraintEnd_toStartOf="@+id/lidar_view"
+            app:layout_constraintStart_toEndOf="@+id/manipulator_xy"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/front_camera_label"
             android:adjustViewBounds="true"
@@ -88,8 +88,8 @@
             android:layout_weight="1"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rear_camera"
-            app:layout_constraintStart_toEndOf="@+id/mainpulator_xy"
+            app:layout_constraintEnd_toStartOf="@+id/lidar_view"
+            app:layout_constraintStart_toEndOf="@+id/manipulator_xy"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/front_camera_detections_label" />
 

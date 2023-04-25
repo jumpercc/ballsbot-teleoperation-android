@@ -38,6 +38,9 @@ class DetectionsView @JvmOverloads constructor(
         super.onSizeChanged(width, height, oldWidth, oldHeight)
         canvasWidth = width
         canvasHeight = height
+        if (width == 0 || height == 0) {
+            return
+        }
         reinitExtra()
         redrawExtraBitmap()
     }
