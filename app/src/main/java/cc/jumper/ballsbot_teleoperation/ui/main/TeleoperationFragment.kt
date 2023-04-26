@@ -130,7 +130,7 @@ class TeleoperationFragment : Fragment() {
                             ConstraintSet.START,
                             0
                         )
-                        constraintSet.setHorizontalWeight(an_id, 1.0f)
+                        constraintSet.setHorizontalWeight(an_id, 1.3f)
                     }
                     if (settings.cameras.size == 1) {
                         constraintSet.clear(
