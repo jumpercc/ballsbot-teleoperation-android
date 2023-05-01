@@ -20,7 +20,7 @@ data class BotSettings(
     val pose: Boolean,
     val ups: Boolean,
     val updates_per_second: Int,
-    val camera_image: CameraImageSettings,
+    val camera_image: List<CameraImageSettings>,
 )
 
 data class DistanceSensorState(
