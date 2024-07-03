@@ -56,16 +56,14 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
         return super.dispatchGenericMotionEvent(ev)
     }
 
-    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
-        if (event != null) {
-            if (event.action == KeyEvent.ACTION_DOWN) {
-                if (myOnKeyChange(event.keyCode, event, true)) {
-                    return true
-                }
-            } else if (event.action == KeyEvent.ACTION_UP) {
-                if (myOnKeyChange(event.keyCode, event, false)) {
-                    return true
-                }
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (event.action == KeyEvent.ACTION_DOWN) {
+            if (myOnKeyChange(event.keyCode, event, true)) {
+                return true
+            }
+        } else if (event.action == KeyEvent.ACTION_UP) {
+            if (myOnKeyChange(event.keyCode, event, false)) {
+                return true
             }
         }
         return super.dispatchKeyEvent(event)

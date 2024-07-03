@@ -49,7 +49,7 @@ class GameControllerViewModel() : ViewModel() {
         val gameControllerDeviceIds = mutableListOf<Int>()
         val deviceIds = InputDevice.getDeviceIds()
         deviceIds.forEach { deviceId ->
-            InputDevice.getDevice(deviceId).apply {
+            InputDevice.getDevice(deviceId)?.apply {
 
                 // Verify that the device has gamepad buttons, control sticks, or both.
                 if (sources and InputDevice.SOURCE_GAMEPAD == InputDevice.SOURCE_GAMEPAD
