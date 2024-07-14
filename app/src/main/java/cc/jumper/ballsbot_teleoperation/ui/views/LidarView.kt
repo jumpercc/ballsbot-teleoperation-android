@@ -23,6 +23,8 @@ class LidarView @JvmOverloads constructor(
     private var canvasHeight: Int = 0
     private lateinit var currentBotSize: BotSize
     private lateinit var currentCloud: List<List<Double>>
+    private lateinit var currentFreeTileCenters: List<List<Double>>
+    private lateinit var currentTargetPoint: List<Double>
 
     private lateinit var extraCanvas: Canvas
     private lateinit var extraBitmap: Bitmap
@@ -31,6 +33,7 @@ class LidarView @JvmOverloads constructor(
         ResourcesCompat.getColor(resources, R.color.lidar_background, null)
     private val botColor = ResourcesCompat.getColor(resources, R.color.lidar_self, null)
     private val cloudColor = ResourcesCompat.getColor(resources, R.color.lidar_cloud, null)
+    private val freeCellColor = ResourcesCompat.getColor(resources, R.color.free_cell_cloud, null)
 
     private val botPaint = Paint().apply {
         color = botColor
@@ -41,6 +44,13 @@ class LidarView @JvmOverloads constructor(
 
     private val cloudPaint = Paint().apply {
         color = cloudColor
+        isAntiAlias = true
+        isDither = true
+        style = Paint.Style.FILL
+    }
+
+    private val freeCellPaint = Paint().apply {
+        color = freeCellColor
         isAntiAlias = true
         isDither = true
         style = Paint.Style.FILL
@@ -65,9 +75,16 @@ class LidarView @JvmOverloads constructor(
         canvas.drawBitmap(extraBitmap, 0f, 0f, null)
     }
 
-    fun updateCloud(botSize: BotSize, cloud: List<List<Double>>) {
+    fun updateCloud(
+        botSize: BotSize,
+        cloud: List<List<Double>>,
+        freeTileCenters: List<List<Double>>,
+        targetPoint: List<Double>
+    ) {
         currentBotSize = botSize
         currentCloud = cloud
+        currentFreeTileCenters = freeTileCenters
+        currentTargetPoint = targetPoint
         redrawExtraBitmap()
     }
 
@@ -104,6 +121,22 @@ class LidarView @JvmOverloads constructor(
                 endPoint.x + xShift, endPoint.y + yShift,
                 botPaint
             )
+
+            currentFreeTileCenters.forEach {
+                val aPoint = transformPoint(
+                    PointF(
+                        (it[0] / metersPerPixel).toFloat(),
+                        (it[1] / metersPerPixel).toFloat()
+                    )
+                )
+                if (-xShift <= aPoint.x && aPoint.x <= xShift && -yShift <= aPoint.y && aPoint.y <= yShift) {
+                    extraCanvas.drawCircle(
+                        aPoint.x + xShift, aPoint.y + yShift,
+                        POINT_RADIUS,
+                        freeCellPaint
+                    )
+                }
+            }
 
             currentCloud.forEach {
                 val aPoint = transformPoint(

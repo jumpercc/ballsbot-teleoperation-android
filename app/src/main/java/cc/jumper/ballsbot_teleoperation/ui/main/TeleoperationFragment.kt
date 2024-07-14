@@ -3,6 +3,7 @@ package cc.jumper.ballsbot_teleoperation.ui.main
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -91,6 +92,8 @@ class TeleoperationFragment : Fragment() {
                     binding.lidarView.updateCloud(
                         it.bot_size,
                         it.lidar,
+                        it.free_tile_centers,
+                        it.target_point,
                     )
                 }
 
@@ -175,6 +178,7 @@ class TeleoperationFragment : Fragment() {
 
         viewModelTeleoperation.errorMessage.observe(this.viewLifecycleOwner) {
             if (it != null) {
+                Log.w("TAG", it)
                 Toast.makeText(
                     activity,
                     it,

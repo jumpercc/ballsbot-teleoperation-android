@@ -92,4 +92,6 @@ data class BotState(
     val detections: List<Detection>?,
     val current_mode: String,
     val modes_available: List<String>,
+    val free_tile_centers: List<List<Double>>,
+    val target_point: List<Double>,
 )
