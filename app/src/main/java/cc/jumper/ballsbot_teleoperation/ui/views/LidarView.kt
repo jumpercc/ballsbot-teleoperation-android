@@ -34,6 +34,7 @@ class LidarView @JvmOverloads constructor(
     private val botColor = ResourcesCompat.getColor(resources, R.color.lidar_self, null)
     private val cloudColor = ResourcesCompat.getColor(resources, R.color.lidar_cloud, null)
     private val freeCellColor = ResourcesCompat.getColor(resources, R.color.free_cell_cloud, null)
+    private val targetColor = ResourcesCompat.getColor(resources, R.color.target_point, null)
 
     private val botPaint = Paint().apply {
         color = botColor
@@ -51,6 +52,13 @@ class LidarView @JvmOverloads constructor(
 
     private val freeCellPaint = Paint().apply {
         color = freeCellColor
+        isAntiAlias = true
+        isDither = true
+        style = Paint.Style.FILL
+    }
+
+    private val targetPaint = Paint().apply {
+        color = targetColor
         isAntiAlias = true
         isDither = true
         style = Paint.Style.FILL
@@ -103,7 +111,28 @@ class LidarView @JvmOverloads constructor(
         val xShift = canvasWidth / 2.0f
         val yShift = canvasHeight / 2.0f
 
+        val scatter = { paint: Paint ->
+            { it: List<Double> ->
+                val aPoint = transformPoint(
+                    PointF(
+                        (it[0] / metersPerPixel).toFloat(),
+                        (it[1] / metersPerPixel).toFloat()
+                    )
+                )
+                if (-xShift <= aPoint.x && aPoint.x <= xShift && -yShift <= aPoint.y && aPoint.y <= yShift) {
+                    extraCanvas.drawCircle(
+                        aPoint.x + xShift, aPoint.y + yShift,
+                        POINT_RADIUS,
+                        paint
+                    )
+                }
+            }
+        }
+
         if (::currentBotSize.isInitialized) {
+            currentFreeTileCenters.forEach(scatter(freeCellPaint))
+            currentTargetPoint.let(scatter(targetPaint))
+
             val startPoint = transformPoint(
                 PointF(
                     (currentBotSize.x / metersPerPixel).toFloat(),
@@ -122,37 +151,7 @@ class LidarView @JvmOverloads constructor(
                 botPaint
             )
 
-            currentFreeTileCenters.forEach {
-                val aPoint = transformPoint(
-                    PointF(
-                        (it[0] / metersPerPixel).toFloat(),
-                        (it[1] / metersPerPixel).toFloat()
-                    )
-                )
-                if (-xShift <= aPoint.x && aPoint.x <= xShift && -yShift <= aPoint.y && aPoint.y <= yShift) {
-                    extraCanvas.drawCircle(
-                        aPoint.x + xShift, aPoint.y + yShift,
-                        POINT_RADIUS,
-                        freeCellPaint
-                    )
-                }
-            }
-
-            currentCloud.forEach {
-                val aPoint = transformPoint(
-                    PointF(
-                        (it[0] / metersPerPixel).toFloat(),
-                        (it[1] / metersPerPixel).toFloat()
-                    )
-                )
-                if (-xShift <= aPoint.x && aPoint.x <= xShift && -yShift <= aPoint.y && aPoint.y <= yShift) {
-                    extraCanvas.drawCircle(
-                        aPoint.x + xShift, aPoint.y + yShift,
-                        POINT_RADIUS,
-                        cloudPaint
-                    )
-                }
-            }
+            currentCloud.forEach(scatter(cloudPaint))
         }
 
         invalidate()

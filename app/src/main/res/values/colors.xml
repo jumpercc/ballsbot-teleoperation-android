@@ -17,6 +17,7 @@
     <color name="lidar_self">#55DD55</color>
     <color name="lidar_cloud">#DDDD55</color>
     <color name="free_cell_cloud">#ADD8E6</color>
+    <color name="target_point">#FF6666</color>
 
     <color name="manipulator_background">#222244</color>
     <color name="manipulator_bot">#55DD55</color>
